@@ -17,10 +17,10 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views'); 
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded( {limit: '10mb', extended: false}))
 
 // Tells where our public files are going to be
-app.use(express.static('public'))
 
 // Connect to mongoose * Memorize
 const mongoose=require('mongoose')
@@ -35,3 +35,4 @@ app.use('/authors', authorRouter) // Every route inside Author route will be pre
 
 // Creates the port
 app.listen(process.env.PORT || 3000)
+
