@@ -35,7 +35,6 @@ router.get('/new', async (req, res) => {
 
 // Create Book Route
 router.post('/', async (req, res) => {
-  const fileName = req.file != null ? req.file.filename : null
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -54,17 +53,6 @@ router.post('/', async (req, res) => {
   }
 })
 
-function saveCover(book, coverEncoded) {
-  if (coverEncoded == null)
-    return
-  const cover = JSON.parse(coverEncoded)
-  if (cover != null && imageMimeTypes.includes(cover.type)){
-    book.coverImage = new Buffer.from(cover.data,'base64')
-    book.coverImageType = cover.type
-  }
-}
-
-
 async function renderNewPage(res, book, hasError = false) {
   try {
     const authors = await Author.find({})
@@ -76,6 +64,15 @@ async function renderNewPage(res, book, hasError = false) {
     res.render('books/new', params)
   } catch {
     res.redirect('/books')
+  }
+}
+
+function saveCover(book, coverEncoded) {
+  if (coverEncoded == null) return
+  const cover = JSON.parse(coverEncoded)
+  if (cover != null && imageMimeTypes.includes(cover.type)) {
+    book.coverImage = new Buffer.from(cover.data, 'base64')
+    book.coverImageType = cover.type
   }
 }
 
