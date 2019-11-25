@@ -1,5 +1,4 @@
-if(process.env.NODE_ENV !== 'production'
-){
+if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
 }
 // Bring in express and express layouts
@@ -11,6 +10,8 @@ const bodyParser = require('body-parser')
 // Set up router/ controller
 const indexRouter = require('./routes/index');
 const authorRouter = require('./routes/authors');
+const bookRouter = require('./routes/books');
+
 
 // Configuring expresslayouts with view folder* Memorize
 app.set('view engine', 'ejs');
@@ -32,6 +33,7 @@ db.once('open', () => console.log("Connected to Mongoose"))
 // Utilize Routes, Keep down here below the layouts
 app.use('/', indexRouter)
 app.use('/authors', authorRouter) // Every route inside Author route will be prepended with "/authors"
+app.use('/books', bookRouter) 
 
 // Creates the port
 app.listen(process.env.PORT || 3000)
