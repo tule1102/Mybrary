@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const expressLayouts=require('express-ejs-layouts');
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override') // npm i method-override
 
 // Set up router/ controller
 const indexRouter = require('./routes/index');
@@ -14,12 +15,13 @@ const bookRouter = require('./routes/books');
 
 
 // Configuring expresslayouts with view folder* Memorize
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views'); 
+app.set('view engine', 'ejs')
+app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
+app.use(methodOverride('_method'))
 app.use(express.static('public'))
-app.use(bodyParser.urlencoded( {limit: '10mb', extended: false}))
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
 // Tells where our public files are going to be
 
